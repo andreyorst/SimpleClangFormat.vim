@@ -14,10 +14,11 @@ You can specify a style in this command:
 - `:ClangFormat Chrome`
 - `:ClangFormat Chromium`
 - `:ClangFormat Webkit`
+- `:ClangFormat file`
 
 Or you can pass options directly:
 ```vim
-:ClangFormat {"BasedOnStyle": "Webkit", "IndentWidth": 4}
+:ClangFormat {BasedOnStyle: Webkit, IndentWidth: 4}
 ```
 
 ## What this plugin doesn't do:
@@ -60,11 +61,6 @@ with any of this variables:
 
 ```vim
 let g:SimpleClangFormat#useShiftWidth = 1
-```
-
-Or:
-
-```vim
 let g:SimpleClangFormat#useTabStop = 1`
 ```
 
