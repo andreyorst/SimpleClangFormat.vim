@@ -5,7 +5,7 @@ Simpler usage of clang-format in Vim and Neovim.
 ## What this plugin do:
 
 This Plugin adds new command: `:ClangFormat`. It invokes `clang-format` over
-whole file by default, and supports ranges.
+whole file by default, and supports ranges and tab-completions.
 
 You can specify a style in this command:
 

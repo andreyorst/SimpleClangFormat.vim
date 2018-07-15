@@ -71,12 +71,27 @@ by setting these variables in your `.vimrc`
 `let g:SimpleClangFormat#useShiftWidth = 1`
 `let g:SimpleClangFormat#useTabStop = 1`
 
+You can create your own user styles with `g:SimpleClangFormat#userStyles`
+variable:
+
+  `let g:SimpleClangFormat#userStyles = {`
+      `\ "AStyle": {`
+          `\ "BasedOnStyle": "webkit"`
+          `" rest of AStyle settings here`
+      `\},`
+      `\ "Stroustrup": {`
+          `\ "BasedOnStyle": "llvm"`
+          `...`
+      `\},`
+  `}`
+
+
 3.2 Commands                                        *SimpleClangFormat-commands*
 ------------
 
 SimpleClangFormat.vim provides single command: `:ClangFormat`
 This command invokes `clang-format` over current buffer by default.  Also this
-command supports ranges.
+command supports ranges and tab-completion.
 
 You can pass desired style to this command. Avaliable styles:
 
