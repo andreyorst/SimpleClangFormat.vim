@@ -2,9 +2,11 @@
 exec "command! -range=% -nargs=? ClangFormat <line1>,<line2>call s:SimpleClangFormat('<args>')"
 
 function! s:SimpleClangFormat(...) range
+	if !executable('clang-format')
+		echo "[ERROR] clang-format not found in path. Is it installed?"
 	let l:options = ''
 	if a:0 > 1
-		echo "[Error] multiple arguments are not supported"
+		echo "[ERROR] multiple arguments are not supported"
 		return -1
 	elseif a:0 == 0 || a:1 == ''
 		if exists('g:SimpleClangFormat#options')
