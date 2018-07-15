@@ -24,7 +24,8 @@ Or you can pass options directly:
 
 - This plugin doesn't modify you `&equalprg` settings.
 - This plugin doesn't provide
-collections of custom formatting styles except those, which is shipped with `clang-format`
+collections of custom formatting styles except those, which is shipped with `clang-format`.
+- This plugin doesn't support `BraceWrapping: custom` option (yet).
 
 ## Install
 
@@ -69,7 +70,7 @@ let g:SimpleClangFormat#useTabStop = 1`
 
 ## About
 This plugin is created and being maintained by [@andreyorst](https://GitHub.com/andreyorst).
-It is being tested against Vim 8.0, Vim 7.4.1689 and neovim 0.3.0. Other versions
+It is being tested against Vim 8.0, Vim 7.4.1689 and neovim 0.3.\*. Other versions
 are not officially supported, but might work. If you found an issue, or want to
 propose a change, you're welcome to do so at SimpleClangFormat.vim GitHub
 repository: https://github.com/andreyorst/SimpleClangFormat.vim
