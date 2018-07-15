@@ -1,5 +1,5 @@
 " Create custom command to format code with clang-format
-exec "command! -range=% -nargs=? ClangFormat <line1>,<line2>call s:SimpleClangFormat('<args>')"
+exec "command! -complete=customlist,s:GetAvailableStyles -range=% -nargs=? ClangFormat <line1>,<line2>call s:SimpleClangFormat('<args>')"
 
 function! s:SimpleClangFormat(...) range
 	if !executable('clang-format')
@@ -53,4 +53,14 @@ endfunction
 function! s:ParseClangOptions(options)
 	let l:tmp = substitute(string(a:options), "'", "", &gdefault ? 'gg' : 'g')
 	return "'".l:tmp."'"
+endfunction
+
+function! s:GetAvailableStyles(a,b,c)
+	let l:styles = ["LLVM", "Google", "Chromium", "Mozilla", "WebKit", "File"]
+	if exists('g:SimpleClangFormat#userStyles')
+		for key in keys(g:SimpleClangFormat#userStyles)
+			call add(l:styles, key)
+		endfor
+	endif
+	return l:styles
 endfunction
