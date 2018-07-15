@@ -22,7 +22,8 @@ function! s:SimpleClangFormat(...) range
 		else
 			let l:options = 'llvm'
 		endif
-	elseif a:1 ==? "LLVM" || a:1 ==? "Google" || a:1 ==? "Chromium" || a:1 ==? "Mozilla" || a:1 ==? "WebKit"
+	elseif a:1 ==? "LLVM"    || a:1 ==? "Google" || a:1 ==? "Chromium"
+		|| a:1 ==? "Mozilla" || a:1 ==? "WebKit" || a:1 ==? "File"
 		let l:options = a:1
 	else
 		let l:options = s:ParseClangOptions(a:1)
