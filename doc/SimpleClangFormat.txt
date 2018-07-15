@@ -1,0 +1,105 @@
+*SimpleClangFormat.txt*    For Vim 8.0 and NeoVim 0.3.* or later.
+*clang-format* *clangformat* *SimpleClangFormat*
+
+            _               _            _~
+           /_`._ _  _  /_  / `/_  _  _  /_`_  __ _  _ _/_   ._ _ ~
+          ._/// / //_///_'/_,//_|/ //_//  /_/// / //_|/ .|/// / /~
+                  /                 _/~
+
+
+==============================================================================
+CONTENTS                                            *SimpleClangFormat-contents*
+
+ 1. Description ............................... |SimpleClangFormat-description|
+    1.1 Requirements ......................... |SimpleClangFormat-requirements|
+ 2. Installation and Updating .............. |SimpleClangFormat-installnupdate|
+ 3. Settings & Commands .......................... |SimpleClangFormat-settings|
+    3.1 Settings ................................. |SimpleClangFormat-settings|
+    3.2 Commands ................................. |SimpleClangFormat-commands|
+    3.3 Mappings ................................. |SimpleClangFormat-mappings|
+ 4. Contributing ............................. |SimpleClangFormat-contributing|
+
+==============================================================================
+1. Description                                   *SimpleClangFormat-description*
+
+SimpleClangFormat.vim is a  simple  plugin  that  provides  basic  support  of
+external tool `clang-format` in Vim and Neovim.  This plugin is  aimed  to  be
+simple and easy to configure and use.
+
+1.1 Requirements                                *SimpleClangFormat-requirements*
+----------------
+
+This plugin is tested against Vim 8.0,  Vim  7.4.1689  and  NeoVim  0.3.0  and
+higer.  All other versions are not supported, but might work too.  This plugin
+works only in 'nocompatible' mode.
+
+==============================================================================
+2. Installation and Updating                  *SimpleClangFormat-installnupdate*
+
+Recommended way to install SimpleClangFormat is to use plugin manager, such as
+Vundle, vim-plug, dein.nvim or others.  You can still install it  manually  by
+cloning master branch from github.  Assuming you're using  vim-plug  add  this
+line to your configuration file:
+
+  `Plug 'andreyorst/SimpleClangFormat.vim'`
+
+Then do:
+
+`:w | so % | PlugInstall`
+
+==============================================================================
+3. Settings & Commands                              *SimpleClangFormat-settings*
+
+3.1 Settings
+------------
+
+SimpleClangFormat supports configuration in your `.vimrc`, using list notation.
+If no style specified `:ClangFormat` will fallback to configuration from `.vimrc`.
+If no configuration found in `.vimrc`, default style is used.
+
+Configuration example:
+
+  `let g:SimpleClangFormat#options = {`
+    `\ "BasedOnStyle": "Webkit"`
+    `\ "IndentWidth": 4`
+    `...`
+  `\}`
+
+You can force SimpleClangFormat.vim to use your `shiftwidth` and `tabstop` settings
+by setting these variables in your `.vimrc`
+
+`let g:SimpleClangFormat#useShiftWidth = 1`
+`let g:SimpleClangFormat#useTabStop = 1`
+
+3.2 Commands                                        *SimpleClangFormat-commands*
+------------
+
+SimpleClangFormat.vim provides single command: `:ClangFormat`
+This command invokes `clang-format` over current buffer by default.  Also this
+command supports ranges.
+
+You can pass desired style to this command. Avaliable styles:
+
+  `:ClangFormat llvm`
+  `:ClangFormat Mozilla`
+  `:ClangFormat Chrome`
+  `:ClangFormat Chromium`
+  `:ClangFormat Webkit`
+  `:ClangFormat file`
+
+Or you can pass options directly:
+`:ClangFormat {BasedOnStyle: Webkit, IndentWidth: 4}`
+
+==============================================================================
+4. Contributing                                 *SimpleClangFormat-contributing*
+
+If you found a bug, or want to implement a new feature or simplify/extend an
+existing one, feel free to send pull requests to SimpleClangFormat GitHub
+repository.
+
+You can contribute by fixing or reporting bugs in our issue tracker:
+https://github.com/andreyorst/SimpleClangFormat.vim/issues
+
+==============================================================================
+ vim:tw=78:ts=8:ft=help:norl:nornu:nonu:scl=no
+
