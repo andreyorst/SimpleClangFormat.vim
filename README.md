@@ -27,8 +27,8 @@ Furthermore, you can create your own styles.
 
 - This plugin doesn't modify you `&equalprg` settings.
 - This plugin doesn't provide
-collections of custom formatting styles except those, which is shipped with `clang-format`.
-- This plugin doesn't support `BraceWrapping: custom` option (yet).
+collections of custom formatting styles except those, which are shipped with `clang-format`.
+- This plugin doesn't support setting `BraceWrapping: custom` option in `.vimrc` (yet).
 
 ## Install
 
@@ -46,8 +46,8 @@ Then do:
 
 ## Configuration
 
-This plugin supports configuration in your `.vimrc`, using list notation. If no
-style specified `:ClangFormat` will fallback to configuration from `.vimrc`. If
+This plugin can be configured in your `.vimrc`, by using list notation. If no
+style specified `:ClangFormat` will fallback to this configuration. If
 no configuration found in `.vimrc`, default style is used.
 
 Configuration example:
@@ -55,6 +55,7 @@ Configuration example:
 let g:SimpleClangFormat#options = {
     \"BasedOnStyle": "Webkit",
     \"IndentWidth": 4,
+    ...
 \}
 ```
 
