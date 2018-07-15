@@ -2,11 +2,12 @@
 exec "command! -complete=customlist,s:GetAvailableStyles -range=% -nargs=? ClangFormat <line1>,<line2>call s:SimpleClangFormat('<args>')"
 
 function! s:SimpleClangFormat(...) range
+	let l:user = 0
+	let l:options = ''
 	if !executable('clang-format')
 		echo "[ERROR] clang-format not found in path. Is it installed?"
 		return -1
 	endif
-	let l:options = ''
 	if a:0 > 1
 		echo "[ERROR] multiple arguments are not supported"
 		return -1
@@ -19,8 +20,8 @@ function! s:SimpleClangFormat(...) range
 		endif
 	elseif a:1 ==? "LLVM" || a:1 ==? "Google" || a:1 ==? "Chromium" || a:1 ==? "Mozilla" || a:1 ==? "WebKit" || a:1 ==? "File"
 		let l:options = a:1
-	endif
-	if exists('g:SimpleClangFormat#userStyles') && has_key(g:SimpleClangFormat#userStyles, a:1)
+	elseif exists('g:SimpleClangFormat#userStyles') && has_key(g:SimpleClangFormat#userStyles, a:1)
+		let l:user = 1
 		let l:options = s:ParseClangOptions(g:SimpleClangFormat#userStyles[a:1])
 	else
 		" handle options directly
@@ -31,7 +32,9 @@ function! s:SimpleClangFormat(...) range
 			return -1
 		endif
 	endif
-	let l:options = s:ApplyUserIndentationSettings(l:options)
+	if l:user != 1
+		let l:options = s:ApplyUserIndentationSettings(l:options)
+	endif
 	exec a:firstline.",".a:lastline."!clang-format -style=".l:options
 	return 0
 endfunction

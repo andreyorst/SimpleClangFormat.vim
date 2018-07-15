@@ -21,6 +21,8 @@ Or you can pass options directly:
 :ClangFormat {BasedOnStyle: Webkit, IndentWidth: 4}
 ```
 
+Furthermore, you can create your own styles.
+
 ## What this plugin doesn't do:
 
 - This plugin doesn't modify you `&equalprg` settings.
@@ -63,6 +65,27 @@ with any of this variables:
 let g:SimpleClangFormat#useShiftWidth = 1
 let g:SimpleClangFormat#useTabStop = 1`
 ```
+
+### Custom User Styles
+
+You can create custom user styles to use with `:ClangFormat`. The syntax is similar to the
+`g:SimpleClangFormat#options`, except that you specify lists inside list:
+
+```vim
+let g:SimpleClangFormat#userStyles = {
+    \ "AStyle": {
+        \ "BasedOnStyle": "webkit"
+        " rest of AStyle settings here
+    \},
+    \ "Stroustrup": {
+        \ "BasedOnStyle": "llvm"
+        ...
+    \},
+}
+```
+
+Custom user styles are not affected by `g:SimpleClangFormat#useShiftWidth` and `g:SimpleClangFormat#useTabStop`.
+
 
 ## About
 This plugin is created and being maintained by [@andreyorst](https://GitHub.com/andreyorst).
