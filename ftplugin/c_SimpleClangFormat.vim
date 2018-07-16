@@ -1,5 +1,5 @@
 " Author: Andrey Orst
-" Last Modification Date: 07.06.18
+" Last Modification Date: 07.16.18
 " Language: C/Cpp
 " License: MIT
 
