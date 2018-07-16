@@ -65,5 +65,5 @@ function! SimpleClangFormat#availableStyles(a,b,c)
 			call add(l:styles, key)
 		endfor
 	endif
-	return l:styles
+	return join(l:styles, "\n")
 endfunction
