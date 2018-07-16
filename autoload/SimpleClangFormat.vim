@@ -15,7 +15,9 @@ function! SimpleClangFormat#format(...) range
 		else
 			let l:options = 'llvm'
 		endif
-	elseif a:1 ==? "LLVM" || a:1 ==? "Google" || a:1 ==? "Chromium" || a:1 ==? "Mozilla" || a:1 ==? "WebKit" || a:1 ==? "File"
+	elseif a:1 ==? "LLVM" || a:1 ==? "Google" || a:1 ==? "Chromium" || a:1 ==? "Mozilla" || a:1 ==? "WebKit"
+		let l:options = "'{BasedOnStyle: ".a:1."}'"
+	elseif a:1 ==? "File"
 		let l:options = a:1
 	elseif exists('g:SimpleClangFormat#userStyles') && has_key(g:SimpleClangFormat#userStyles, a:1)
 		let l:user = 1
@@ -37,14 +39,15 @@ function! SimpleClangFormat#format(...) range
 endfunction
 
 function! s:ApplyUserIndentationSettings(options)
+	let l:options = a:options
 	if exists('g:SimpleClangFormat#useShiftWidth')
 		if g:SimpleClangFormat#useShiftWidth == 1
-			let l:options = substitute(a:options, '}', ', IndentWidth: '.&shiftwidth.'}', &gdefault ? 'gg' : 'g')
+			let l:options = substitute(l:options, '}', ', IndentWidth: '.&shiftwidth.'}', &gdefault ? 'gg' : 'g')
 		endif
 	endif
 	if exists('g:SimpleClangFormat#useTabStop')
 		if g:SimpleClangFormat#useTabStop == 1
-			let l:options = substitute(a:options, '}', ', TabWidth: '.&tabstop.'}', &gdefault ? 'gg' : 'g')
+			let l:options = substitute(l:options, '}', ', TabWidth: '.&tabstop.'}', &gdefault ? 'gg' : 'g')
 		endif
 	endif
 	return l:options
