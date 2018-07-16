@@ -1,3 +1,9 @@
+" Author: Andrey Orst
+" Last Modification Date: 07.06.18
+" Language: C/Cpp
+" License: MIT
+
+"TODO: Externalize flow control
 function! SimpleClangFormat#format(...) range
 	let l:user = 0
 	let l:options = ''
@@ -53,6 +59,7 @@ function! s:ApplyUserIndentationSettings(options)
 	return l:options
 endfunction
 
+"TODO: Find a way to parsenested entries in inline config
 function! s:ParseClangOptions(options)
 	let l:tmp = substitute(string(a:options), "'", "", &gdefault ? 'gg' : 'g')
 	return "'".l:tmp."'"
