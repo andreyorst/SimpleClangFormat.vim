@@ -1,3 +1,8 @@
+" Author: Andrey Orst
+" Last Modification Date: 07.06.18
+" Language: C/Cpp
+" License: MIT
+
 if exists("b:did_ftplugin")
 	finish
 endif
