@@ -71,6 +71,21 @@ by setting these variables in your `.vimrc`
 `let g:SimpleClangFormat#useShiftWidth = 1`
 `let g:SimpleClangFormat#useTabStop = 1`
 
+If one of these variables is specified, `:ClangFormat` will force all styles to
+use `IndentWidth: 4` or `TabWidth: 4` accordingly. User styles are immune to these
+settings, so you need to specify `TabWidth` and `IndentWidth`. If you pass option
+list directly, using `:ClangFormat {...}` notation, explicit declaration of any
+of these settings will ignore user tabstop and shiftwidth settings:
+
+`:let g:SimpleClangFormat#useShiftWidth = 1`
+`:let g:SimpleClangFormat#useTabStop = 1`
+`:set tabstops=8 | set shiftwidthw=8`
+
+`:ClangFormat {BasedOnStyle: LLVM}`
+Will be extended with IndentWidth: 8, TabWidth: 8
+`:ClangFormat {BasedOnStyle: LLVM, IndentWidth: 2, TabWidth: 2}`
+Will ignore user tabstop and shiftwidth settings
+
 You can create your own user styles with `g:SimpleClangFormat#userStyles`
 variable:
 

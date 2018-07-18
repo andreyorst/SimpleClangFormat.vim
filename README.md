@@ -81,12 +81,12 @@ If you pass option list directly, using `:ClangFormat {...}` notation, explicit 
 ```
 :let g:SimpleClangFormat#useShiftWidth = 1
 :let g:SimpleClangFormat#useTabStop = 1`
-
 :set tabstops=8 | set shiftwidthw=8
 
-" Will be extended with IndentWidth: 8, TabWidth: 8
 :ClangFormat {BasedOnStyle: LLVM}
-:ClangFormat {BasedOnStyle: LLVM, IndentWidth: 2, TabWidth: 2}" will ignore user tabstop and shiftwidth settings
+" Will be extended with IndentWidth: 8, TabWidth: 8
+:ClangFormat {BasedOnStyle: LLVM, IndentWidth: 2, TabWidth: 2}
+" Will ignore user tabstop and shiftwidth settings
 ```
 
 ### Custom User Styles
