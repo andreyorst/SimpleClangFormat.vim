@@ -3,81 +3,78 @@
 " Language: C/Cpp
 " License: MIT
 
-"TODO: Externalize flow control
 function! SimpleClangFormat#format(...) range
-	let l:ignore_user_ts_sw = 0
-	let l:options = ''
 	if !executable('clang-format')
 		echo "[ERROR] clang-format not found in path. Is it installed?"
 		return -1
 	endif
-	if a:0 > 1
-		echo "[ERROR] multiple arguments are not supported"
-		return -1
-	endif
-	if a:0 == 0 || a:1 == ''
-		if exists('g:SimpleClangFormat#options')
-			let l:options = s:ParseClangOptions(g:SimpleClangFormat#options)
-		else
-			let l:options = 'llvm'
-		endif
-	elseif a:1 ==? "LLVM" || a:1 ==? "Google" || a:1 ==? "Chromium" || a:1 ==? "Mozilla" || a:1 ==? "WebKit"
-		let l:options = "'{BasedOnStyle: ".a:1."}'"
-	elseif a:1 ==? "File"
-		let l:options = a:1
-	elseif exists('g:SimpleClangFormat#userStyles') && has_key(g:SimpleClangFormat#userStyles, a:1)
-		let l:ignore_user_ts_sw = 1
-		let l:options = s:ParseClangOptions(g:SimpleClangFormat#userStyles[a:1])
+	if a:0 == 0
+		let l:style = ''
 	else
-		" handle options directly
-		let l:options = a:1
-		if l:options =~ '\v\{.*\}'
-			let l:save_ignorecase = &ignorecase
-			set ignorecase
-			if match(l:options, 'IndentWidth') >= 0 || match(l:options, 'TabWidth') >= 0
-				let l:ignore_user_ts_sw = 1
-			endif
-			let &ignorecase = l:save_ignorecase
-			let l:options = s:ParseClangOptions(a:1)
-		else
-			echo "[ERROR] Wrong style options: ".l:options
-			return -1
-		endif
+		let l:style = a:1
 	endif
-	if l:ignore_user_ts_sw != 1
-		let l:options = s:ApplyUserIndentationSettings(l:options)
+	let l:settings = s:GetSettingsFromStyle(l:style)
+	if l:settings.ignore_user_ts_sw != 1
+		let l:settings.style = s:ApplyUserIndentationSettings(l:settings.style)
 	endif
-	exec a:firstline.",".a:lastline."!clang-format -style=".l:options
+	exec a:firstline.",".a:lastline."!clang-format -style=".l:settings.style
 	return 0
 endfunction
 
-function! s:ApplyUserIndentationSettings(options)
-	let l:options = a:options
+function! s:GetSettingsFromStyle(style)
+	let l:settings = {
+	\    'ignore_user_ts_sw': 0,
+	\    'style': '',
+	\}
+	if a:style == ''
+		if exists('g:SimpleClangFormat#options')
+			let l:settings.style = s:ParseClangOptions(g:SimpleClangFormat#options)
+		else
+			let l:settings.style = 'llvm'
+		endif
+	elseif a:style ==? "LLVM" || a:style ==? "Google" || a:style ==? "Chromium" || a:style ==? "Mozilla" || a:style ==? "WebKit"
+		let l:settings.style = "'{BasedOnStyle: ".a:style."}'"
+	elseif a:style ==? "File"
+		let l:settings.style = 'file'
+	elseif exists('g:SimpleClangFormat#userStyles') && has_key(g:SimpleClangFormat#userStyles, a:style)
+		let l:settings.ignore_user_ts_sw = 1
+		let l:settings.style = s:ParseClangOptions(g:SimpleClangFormat#userStyles[a:style])
+	else
+		" handle style directly
+		if a:style =~ '\v\{.*\}'
+			let l:save_ignorecase = &ignorecase
+			set ignorecase
+			if match(a:style, 'IndentWidth') >= 0 || match(a:style, 'TabWidth') >= 0
+				let l:settings.ignore_user_ts_sw = 1
+			endif
+			let &ignorecase = l:save_ignorecase
+			let l:settings.style = s:ParseClangOptions(a:style)
+		else
+			echo "[ERROR] Wrong style style: ".a:style
+			return -1
+		endif
+	endif
+	return l:settings
+endfunction
+
+function! s:ApplyUserIndentationSettings(style)
+	let l:style = a:style
 	if exists('g:SimpleClangFormat#useShiftWidth')
 		if g:SimpleClangFormat#useShiftWidth == 1
-			let l:options = substitute(l:options, '}', ', IndentWidth: '.&shiftwidth.'}', &gdefault ? 'gg' : 'g')
+			let l:style = substitute(l:style, '}', ', IndentWidth: '.&shiftwidth.'}', &gdefault ? 'gg' : 'g')
 		endif
 	endif
 	if exists('g:SimpleClangFormat#useTabStop')
 		if g:SimpleClangFormat#useTabStop == 1
-			let l:options = substitute(l:options, '}', ', TabWidth: '.&tabstop.'}', &gdefault ? 'gg' : 'g')
+			let l:style = substitute(l:style, '}', ', TabWidth: '.&tabstop.'}', &gdefault ? 'gg' : 'g')
 		endif
 	endif
-	return l:options
+	return l:style
 endfunction
 
 "TODO: Find a way to parsenested entries in inline config
-function! s:ParseClangOptions(options)
-	let l:tmp = substitute(string(a:options), "'", "", &gdefault ? 'gg' : 'g')
+function! s:ParseClangOptions(style)
+	let l:tmp = substitute(string(a:style), "'", "", &gdefault ? 'gg' : 'g')
 	return "'".l:tmp."'"
 endfunction
 
-function! SimpleClangFormat#availableStyles(a,b,c)
-	let l:styles = ["LLVM", "Google", "Chromium", "Mozilla", "WebKit", "File"]
-	if exists('g:SimpleClangFormat#userStyles')
-		for key in keys(g:SimpleClangFormat#userStyles)
-			call add(l:styles, key)
-		endfor
-	endif
-	return join(l:styles, "\n")
-endfunction
