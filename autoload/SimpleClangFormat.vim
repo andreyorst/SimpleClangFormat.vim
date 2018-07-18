@@ -5,7 +5,7 @@
 
 "TODO: Externalize flow control
 function! SimpleClangFormat#format(...) range
-	let l:user = 0
+	let l:ignore_user_ts_sw = 0
 	let l:options = ''
 	if !executable('clang-format')
 		echo "[ERROR] clang-format not found in path. Is it installed?"
@@ -26,18 +26,25 @@ function! SimpleClangFormat#format(...) range
 	elseif a:1 ==? "File"
 		let l:options = a:1
 	elseif exists('g:SimpleClangFormat#userStyles') && has_key(g:SimpleClangFormat#userStyles, a:1)
-		let l:user = 1
+		let l:ignore_user_ts_sw = 1
 		let l:options = s:ParseClangOptions(g:SimpleClangFormat#userStyles[a:1])
 	else
 		" handle options directly
+		let l:options = a:1
 		if l:options =~ '\v\{.*\}'
+			let l:save_ignorecase = &ignorecase
+			set ignorecase
+			if match(l:options, 'IndentWidth') >= 0 || match(l:options, 'TabWidth') >= 0
+				let l:ignore_user_ts_sw = 1
+			endif
+			let &ignorecase = l:save_ignorecase
 			let l:options = s:ParseClangOptions(a:1)
 		else
-			echo "[ERROR] Wrong style options"
+			echo "[ERROR] Wrong style options: ".l:options
 			return -1
 		endif
 	endif
-	if l:user != 1
+	if l:ignore_user_ts_sw != 1
 		let l:options = s:ApplyUserIndentationSettings(l:options)
 	endif
 	exec a:firstline.",".a:lastline."!clang-format -style=".l:options
