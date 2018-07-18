@@ -1,13 +1,12 @@
 # SimpleClangFormat.vim
 
-Simpler usage of clang-format in Vim and Neovim.
+Simpler usage of clang-format in Vim and NeoVim.
 
 ## What this plugin do:
 
-This Plugin adds new command: `:ClangFormat`. It invokes `clang-format` over
-whole file by default, and supports ranges and tab-completions.
+This Plugin adds new command: `:ClangFormat`.
 
-You can specify a style in this command:
+You can specify a style:
 
 - `:ClangFormat llvm`
 - `:ClangFormat Mozilla`
@@ -53,9 +52,17 @@ no configuration found in `.vimrc`, default style is used.
 Configuration example:
 ```vim
 let g:SimpleClangFormat#options = {
-    \"BasedOnStyle": "Webkit",
-    \"IndentWidth": 4,
-    ...
+    \ "BasedOnStyle": "webkit",
+    \ "IndentWidth": 4,
+    \ "TabWidth": 4,
+    \ "PointerAlignment": "Left",
+    \ "AlignAfterOpenBracket": "DontAlign",
+    \ "AlignConsecutiveAssignments": "true",
+    \ "AlignConsecutiveDeclarations": "true",
+    \ "AlignTrailingComments": "true",
+    \ "BreakBeforeBraces": "Stroustrup",
+    \ "UseTab": "ForIndentation",
+    \ "SortIncludes": "false",
 \}
 ```
 
@@ -65,6 +72,21 @@ with any of this variables:
 ```vim
 let g:SimpleClangFormat#useShiftWidth = 1
 let g:SimpleClangFormat#useTabStop = 1`
+```
+
+If one of these variables is specified, `:ClangFormat` will force all styles to use `IndentWidth: 4` or `TabWidth: 4` accordingly.
+[User Styles](https://github.com/andreyorst/SimpleClangFormat.vim#custom-user-styles) are immune to these settings, so you need to specify `TabWidth` and `IndentWidth`.
+If you pass option list directly, using `:ClangFormat {...}` notation, explicit declaration of any of these settings will ignore user tabstop and shiftwidth settings:
+
+```
+:let g:SimpleClangFormat#useShiftWidth = 1
+:let g:SimpleClangFormat#useTabStop = 1`
+
+:set tabstops=8 | set shiftwidthw=8
+
+" Will be extended with IndentWidth: 8, TabWidth: 8
+:ClangFormat {BasedOnStyle: LLVM}
+:ClangFormat {BasedOnStyle: LLVM, IndentWidth: 2, TabWidth: 2}" will ignore user tabstop and shiftwidth settings
 ```
 
 ### Custom User Styles
