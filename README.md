@@ -78,7 +78,7 @@ If one of these variables is specified, `:ClangFormat` will force all styles to 
 [User Styles](https://github.com/andreyorst/SimpleClangFormat.vim#custom-user-styles) are immune to these settings, so you need to specify `TabWidth` and `IndentWidth`.
 If you pass option list directly, using `:ClangFormat {...}` notation, explicit declaration of any of these settings will ignore user tabstop and shiftwidth settings:
 
-```
+```vim
 :let g:SimpleClangFormat#useShiftWidth = 1
 :let g:SimpleClangFormat#useTabStop = 1`
 :set tabstops=8 | set shiftwidthw=8
