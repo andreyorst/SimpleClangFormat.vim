@@ -2,11 +2,9 @@
 
 Simpler usage of clang-format in Vim and NeoVim.
 
-## What this plugin do:
+## What this plugin does:
 
-This Plugin adds new command: `:ClangFormat`.
-
-You can specify a style:
+This Plugin adds new command: `:ClangFormat`. You can specify a style:
 
 - `:ClangFormat llvm`
 - `:ClangFormat Mozilla`
@@ -22,12 +20,11 @@ Or you can pass options directly:
 
 Furthermore, you can create your own styles.
 
-## What this plugin doesn't do:
+## What this plugin doesn't:
 
-- This plugin doesn't modify you `&equalprg` settings.
-- This plugin doesn't provide
-collections of custom formatting styles except those, which are shipped with `clang-format`.
-- This plugin doesn't support setting `BraceWrapping: custom` option in `.vimrc` (yet).
+- Modify you `&equalprg` settings.
+- Provide collections of custom formatting styles except those, which are shipped with `clang-format`.
+- Support setting `BraceWrapping: custom` option in `.vimrc` (yet).
 
 ## Install
 
@@ -83,10 +80,8 @@ If you pass option list directly, using `:ClangFormat {...}` notation, explicit 
 :let g:SimpleClangFormat#useTabStop = 1`
 :set tabstops=8 | set shiftwidthw=8
 
-:ClangFormat {BasedOnStyle: LLVM}
-" Will be extended with IndentWidth: 8, TabWidth: 8
-:ClangFormat {BasedOnStyle: LLVM, IndentWidth: 2, TabWidth: 2}
-" Will ignore user tabstop and shiftwidth settings
+:ClangFormat {BasedOnStyle: LLVM} " Will be extended with IndentWidth: 8, TabWidth: 8
+:ClangFormat {BasedOnStyle: LLVM, IndentWidth: 2, TabWidth: 2} " Will ignore user tabstop and shiftwidth settings
 ```
 
 ### Custom User Styles
